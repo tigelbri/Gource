@@ -100,6 +100,7 @@ public:
     std::string title;
 
     int font_size;
+    int user_font_size;
     vec3 font_colour;
 
     float elasticity;
@@ -144,7 +145,7 @@ public:
     TextureResource* file_graphic;
 
     int log_level;
-    
+
     GourceSettings();
 
     void setGourceDefaults();

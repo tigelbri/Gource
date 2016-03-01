@@ -143,6 +143,7 @@ class Gource : public SDLApp {
     float max_tick_rate;
     int frameskip;
     int framecount;
+    int user_font_size;
 
     time_t currtime;
     time_t lasttime;

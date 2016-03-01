@@ -41,7 +41,7 @@ RUser::RUser(const std::string& name, vec2 pos, int tagid) : Pawn(name,pos,tagid
     last_action = 0.0;
     action_interval = 0.2;
     name_interval = 5.0;
-
+    fontSize = 18;
     min_units_ps = 100.0;
 
     actionCount = activeCount = 0;
@@ -305,10 +305,10 @@ void RUser::logic(float t, float dt) {
 
 void RUser::updateFont() {
     if(selected) {
-        font = fontmanager.grab("FreeSans.ttf", 18);
+        font = fontmanager.grab("FreeSans.ttf", fontSize + 2);
         font.dropShadow(true);
     } else {
-        font = fontmanager.grab("FreeSans.ttf", 14);
+        font = fontmanager.grab("FreeSans.ttf", fontSize);
         font.dropShadow(true);
     }
 
@@ -325,6 +325,11 @@ void RUser::setHighlighted(bool highlight) {
 
 void RUser::setSelected(bool selected) {
     Pawn::setSelected(selected);
+    updateFont();
+}
+
+void RUser::setFontSize(int size) {
+    fontSize = size;
     updateFont();
 }
 
