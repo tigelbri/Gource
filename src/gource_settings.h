@@ -128,6 +128,7 @@ public:
     int dir_name_depth;
 
     std::vector<std::string> highlight_users;
+    std::vector<std::string> dir_hide_exceptions;
     std::vector<std::string> follow_users;
     std::vector<Regex*> file_filters;
     std::vector<Regex*> user_filters;
@@ -144,7 +145,7 @@ public:
     TextureResource* file_graphic;
 
     int log_level;
-    
+
     GourceSettings();
 
     void setGourceDefaults();

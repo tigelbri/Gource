@@ -32,6 +32,7 @@
 
 #include <list>
 #include <set>
+#include <iostream>
 
 class RFile;
 
@@ -63,6 +64,7 @@ class RDirNode : public QuadItem {
     bool visible;
     bool in_frustum;
     bool position_initialized;
+    bool repo_node;
 
     float since_node_visible;
     float since_last_file_change;
@@ -188,7 +190,7 @@ public:
     void logic(float dt);
 
     void updateEdgeVBO(quadbuf& buffer) const;
-    
+
     void drawEdges() const;
     void drawEdgeShadows() const;
 

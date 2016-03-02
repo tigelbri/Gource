@@ -34,7 +34,18 @@ std::map<std::string, RDirNode*> gGourceDirMap;
 RDirNode::RDirNode(RDirNode* parent, const std::string & abspath) {
 
     changePath(abspath);
-
+    repo_node = false;
+    std::string file = abspath;
+    if(file.back() == '/')
+      file.erase(file.end()-1, file.end());
+    std::size_t found = file.find_last_of("/\\");
+    for(size_t i = 0; i < gGourceSettings.dir_hide_exceptions.size(); i++)
+    {
+        if(!file.substr(found+1).compare(gGourceSettings.dir_hide_exceptions[i]))
+        {
+            repo_node = true;
+        }
+    }
     parent = 0;
     setParent(parent);
 
@@ -79,7 +90,7 @@ void RDirNode::changePath(const std::string & abspath) {
         this->abspath += std::string("/");
     }
 
-    //debugLog("new dirnode %s\n", abspath.c_str());
+    // debugLog("new dirnode %s\n", abspath.c_str());
 
     gGourceDirMap[this->abspath] = this;
 }
@@ -922,7 +933,7 @@ void RDirNode::logic(float dt) {
 
 void RDirNode::drawDirName(FXFont& dirfont) const{
     if(parent==0) return;
-    if(gGourceSettings.hide_dirnames) return;
+    if(gGourceSettings.hide_dirnames && !this->repo_node) return;
     if(gGourceSettings.dir_name_depth > 0 && gGourceSettings.dir_name_depth < (depth-1)) return;
 
     if(!gGourceSettings.highlight_dirs && since_last_node_change > 5.0) return;
@@ -969,11 +980,11 @@ void RDirNode::calcScreenPos(GLint* viewport, GLdouble* modelview, GLdouble* pro
 
 void RDirNode::drawNames(FXFont& dirfont) {
 
-    if(!gGourceSettings.hide_dirnames && isVisible()) {
+    if((!gGourceSettings.hide_dirnames && isVisible()) || this->repo_node ) {
         drawDirName(dirfont);
     }
 
-    if(!gGourceSettings.hide_filenames) {
+    if(!gGourceSettings.hide_filenames || this->repo_node) {
 
         if(!(gGourceSettings.hide_filenames || gGourceSettings.hide_files) && in_frustum) {
             for(std::list<RFile*>::const_iterator it = files.begin(); it!=files.end(); it++) {
@@ -1180,4 +1191,3 @@ void RDirNode::updateQuadItemBounds() {
     //set bounds
     quadItemBounds.set(pos - radoffset, pos + radoffset);
 }
-

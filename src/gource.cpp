@@ -27,15 +27,12 @@ int gGourceUserInnerLoops = 0;
 Gource::Gource(FrameExporter* exporter) {
 
     this->logfile = gGourceSettings.path;
-    commitlog = 0;
-
     //disable OpenGL 2.0 functions if not supported
     if(!GLEW_VERSION_2_0) gGourceSettings.ffp = true;
 
     if(!gGourceSettings.file_graphic) {
         gGourceSettings.file_graphic = texturemanager.grab("file.png", true, GL_CLAMP_TO_EDGE);
     }
-
     fontlarge = fontmanager.grab("FreeSans.ttf", 42);
     fontlarge.dropShadow(true);
     fontlarge.roundCoordinates(true);
@@ -49,7 +46,7 @@ Gource::Gource(FrameExporter* exporter) {
     fontcaption.roundCoordinates(false);
     fontcaption.alignTop(false);
 
-    font = fontmanager.grab("FreeSans.ttf", 14);
+    font = fontmanager.grab("FreeSans.ttf", 24);
     font.dropShadow(true);
     font.roundCoordinates(true);
 

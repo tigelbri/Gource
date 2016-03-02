@@ -270,6 +270,7 @@ GourceSettings::GourceSettings() {
     arg_types["file-filter"]    = "multi-value";
     arg_types["follow-user"]    = "multi-value";
     arg_types["highlight-user"] = "multi-value";
+    arg_types["dir-hide-exceptions"] = "multi-value";
 
     arg_types["log-level"]          = "string";
     arg_types["background-image"]   = "string";
@@ -1268,6 +1269,36 @@ void GourceSettings::importGourceSettings(ConfFile& conffile, ConfSection* gourc
             if(!entry->hasValue()) conffile.entryException(entry, "specify follow-user (user)");
 
             follow_users.push_back(entry->getString());
+        }
+    }
+
+    if((entry = gource_settings->getEntry("dir-hide-exceptions")) != 0) {
+
+        ConfEntryList* dir_hide_exception_entries = gource_settings->getEntries("dir-hide-exceptions");
+
+        for(ConfEntryList::iterator it = dir_hide_exception_entries->begin(); it != dir_hide_exception_entries->end(); it++) {
+
+            entry = *it;
+
+            if(!entry->hasValue()) conffile.entryException(entry, "specify directory name (without /)");
+            std::string hide_string = entry->getString();
+            size_t sep;
+            while((sep = hide_string.find(",")) != std::string::npos) {
+
+                if(sep == 0 && hide_string.size()==1) break;
+
+                if(sep == 0) {
+                    hide_string = hide_string.substr(sep+1, hide_string.size()-1);
+                    continue;
+                }
+
+                std::string hide_field  = hide_string.substr(0, sep);
+                dir_hide_exceptions.push_back(hide_field);
+                hide_string = hide_string.substr(sep+1, hide_string.size()-1);
+            }
+
+            if(hide_string.size() > 0 && hide_string != ",") dir_hide_exceptions.push_back(hide_string);
+
         }
     }
 
