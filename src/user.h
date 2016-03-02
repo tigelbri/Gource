@@ -39,7 +39,6 @@ class RUser : public Pawn {
     std::list<RAction*> activeActions;
     size_t actionCount;
     size_t activeCount;
-    int fontSize;
 
     float action_interval;
     float action_dist;
@@ -74,7 +73,6 @@ public:
     bool isInactive();
 
     void setSelected(bool selected);
-    void setFontSize(int size);
     void setHighlighted(bool highlighted);
 
     int getActionCount();

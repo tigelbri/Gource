@@ -53,7 +53,6 @@ Gource::Gource(FrameExporter* exporter) {
     font.dropShadow(true);
     font.roundCoordinates(true);
 
-    user_font_size = gGourceSettings.font_size;
     //only use bloom with alpha channel if transparent due to artifacts on some video cards
     std::string bloom_tga = gGourceSettings.transparent ? "bloom_alpha.tga" : "bloom.tga";
 
@@ -1012,7 +1011,7 @@ RUser* Gource::addUser(const std::string& username) {
     int tagid = tag_seq++;
 
     RUser* user = new RUser(username, pos, tagid);
-    user->setFontSize(user_font_size);
+
     users[username]   = user;
     tagusermap[tagid] = user;
 

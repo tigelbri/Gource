@@ -110,7 +110,6 @@ if(extended_help) {
     printf("  --date-format FORMAT     Specify display date string (strftime format)\n\n");
 
     printf("  --font-size SIZE         Font size used by date and title\n");
-    printf("  --user-font-size SIZE    Font size used for user\n");
     printf("  --font-colour FFFFFF     Font colour used by date and title in hex\n\n");
 
     printf("  --file-extensions        Show filename extensions only\n\n");
@@ -265,7 +264,6 @@ GourceSettings::GourceSettings() {
 
     arg_types["max-files"] = "int";
     arg_types["font-size"] = "int";
-    arg_types["user-font-size"] = "int";
     arg_types["hash-seed"] = "int";
 
     arg_types["user-filter"]    = "multi-value";
@@ -384,7 +382,6 @@ void GourceSettings::setGourceDefaults() {
     title             = "";
 
     font_size = 16;
-    user_font_size = 24;
     dir_colour       = vec3(1.0f);
     font_colour      = vec3(1.0f);
     highlight_colour = vec3(1.0f);
@@ -850,17 +847,6 @@ void GourceSettings::importGourceSettings(ConfFile& conffile, ConfSection* gourc
         font_size = entry->getInt();
 
         if(font_size<1 || font_size>100) {
-            conffile.invalidValueException(entry);
-        }
-    }
-
-    if((entry = gource_settings->getEntry("user-font-size")) != 0) {
-
-        if(!entry->hasValue()) conffile.entryException(entry, "specify font size");
-
-        user_font_size = entry->getInt();
-
-        if(user_font_size<1 || user_font_size>100) {
             conffile.invalidValueException(entry);
         }
     }
